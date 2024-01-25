@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Localização</title>
+</head>
+<body>
+ 	<h1>Sua Localização é:</h1>
+ 	<h2></h2>
+ 	<h1>Establecimento: <br> Latitude: 8.8735744, Longitude: 13.254656</h1>
+ 	<h3></h3>
+ 	<div id="corpo"></div>
+ 	
+
+ 	<script>
+	
+	/*let h2 = document.querySelector('h2');
+
+function success(pos) {
+    let userLatitude = pos.coords.latitude;
+    let userLongitude = pos.coords.longitude;
+
+    h2.textContent = `Latitude: ${userLatitude}, Longitude: ${userLongitude}`;
+
+    // Coordenadas do estabelecimento (exemplo)
+    let establishmentLatitude = -8.8670208;
+    let establishmentLongitude = 13.2579328;
+
+    // Calcula a distância entre o usuário e o estabelecimento usando a fórmula Haversine
+    let distance = haversine(userLatitude, userLongitude, establishmentLatitude, establishmentLongitude);
+
+    // Limite de distância (exemplo: 50 metros)
+    let distanceThreshold = 0.05;  // Em km (50 metros é um exemplo, ajuste conforme necessário)
+
+    // Verifica se a distância é menor que o limite
+    if (distance < distanceThreshold) {
+        console.log('Usuário dentro do estabelecimento.');
+   
+*/
+	let h2 = document.querySelector('h2');
+
+function success(pos) {
+	//console.log(pos);
+    console.log(pos.coords.latitude, pos.coords.longitude);
+    h2.textContent = `Latitude:${pos.coords.latitude}, Longitude:${pos.coords.longitude}`;
+
+    // Coordenadas do estabelecimento (exemplo)
+    const estabelecimentoCoords = {
+        latitude: -8.8735744 ,
+        longitude: 13.254656
+    };
+
+    // Calcula a distância entre o usuário e o estabelecimento
+    const distancia = calcularDistancia(pos.coords.latitude , pos.coords.longitude, estabelecimentoCoords.latitude, estabelecimentoCoords.longitude);
+
+    // Define a distância de referência (exemplo: 50 metros)
+    const distanciaReferencia = 0.05; // 50 metros em km
+    console.log(distancia);
+    document.querySelector('h3').textContent= `Você está a ${(distancia*1000).toFixed(2)}m de distância`;
+
+    // Verifica se o usuário está dentro do estabelecimento
+    if (distancia <= distanciaReferencia) {
+    	document.getElementById("corpo").innerHTML= "<h1>Usuário dentro do estabelecimento</h1>";
+        console.log('Usuário dentro do estabelecimento.');
+    } else {
+    	document.getElementById("corpo").innerHTML= "Usuário fora do estabelecimento.";
+        console.log('Usuário fora do estabelecimento.');
+    }
+}
+
+function error(err) {
+    console.log(err);
+}
+
+// Função para calcular a distância entre duas coordenadas usando a fórmula de Haversine
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Raio da Terra em quilômetros
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distancia = R * c; // Distância em quilômetros
+
+    return distancia;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
+//navigator.geolocation.getCurrentPosition(success, error); // Mostra a Localização estática do Usuário
+
+// Mostra a Localização dinâmica do usuário
+var watchID = navigator.geolocation.watchPosition(success, error, {
+    enableHighAccuracy: true // Pega a localização mais exata possível
+});
+
+/*let h2 = document.querySelector('h2');
+ 		function success(pos) {
+    console.log(pos.coords.latitude, pos.coords.longitude);
+    h2.textContent = `Latitude:${pos.coords.latitude}, Longitude:${pos.coords.longitude}`;
+
+    // Coordenadas do estabelecimento (ajuste conforme necessário)
+    const estabelecimentoCoords = {
+        latitude: -8.8670208,
+        longitude: 13.2579328
+    };
+
+    // Calcula a distância entre o usuário e o estabelecimento
+    const distancia = calcularDistancia(
+        pos.coords.latitude,
+        pos.coords.longitude,
+        estabelecimentoCoords.latitude,
+        estabelecimentoCoords.longitude
+    );
+
+    // Define a distância de referência (exemplo: 50 metros)
+    const distanciaReferencia = 0.05; // 50 metros em km
+
+    // Verifica se o usuário está dentro do estabelecimento
+    if (distancia <= distanciaReferencia) {
+        console.log('Usuário dentro do estabelecimento.');
+    } else {
+        console.log('Usuário fora do estabelecimento.');
+    }
+}
+
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Raio da Terra em quilômetros
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distancia = R * c; // Distância em quilômetros
+
+    return distancia;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
+*/
+</script>
+</body>
+</html>
+
