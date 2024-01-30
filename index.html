@@ -6,9 +6,10 @@
 	<title>Localização</title>
 </head>
 <body>
+    <h1>Isso é apenas um teste!🙏🏼</h1>
  	<h1>Sua Localização é:</h1>
  	<h2></h2>
- 	<h1>Establecimento: <br> Latitude: -14.946101, Longitude: 13.579334</h1>
+ 	<h1>Establecimento: <br> Latitude: -15.189189189189 <br> Longitude: 12.17299995810</h1>
  	<h3></h3>
  	<div id="corpo"></div>
  	
@@ -47,25 +48,31 @@ function success(pos) {
 
     // Coordenadas do estabelecimento (exemplo)
     const estabelecimentoCoords = {
-        latitude: -14.946101 ,
-        longitude: 13.579334
+        latitude: -15.189189189189,
+        longitude: 12.17299995810
     };
 
     // Calcula a distância entre o usuário e o estabelecimento
     const distancia = calcularDistancia(pos.coords.latitude , pos.coords.longitude, estabelecimentoCoords.latitude, estabelecimentoCoords.longitude);
 
     // Define a distância de referência (exemplo: 50 metros)
-    const distanciaReferencia = 0.05; // 50 metros em km
+    const distanciaReferencia = 0.010; // 50 metros em km
     console.log(distancia);
-    document.querySelector('h3').textContent= `Você está a ${(distancia*1000).toFixed(2)}m de distância`;
+    let dis = "";
+    if (distancia>1) {
+         dis = (distancia).toFixed(2) +" km";
+    } else {
+         dis = (distancia*1000).toFixed(2) +" metros";
+    }
+    document.querySelector('h3').textContent= `Você está a ${dis} de distância`;
 
     // Verifica se o usuário está dentro do estabelecimento
     if (distancia <= distanciaReferencia) {
-    	document.getElementById("corpo").innerHTML= "<h1>Usuário dentro do estabelecimento</h1>";
-        console.log('Usuário dentro do estabelecimento.');
+    	document.getElementById("corpo").innerHTML= "<h1>Você está dentro do estabelecimento</h1>";
+        console.log('Você está dentro do estabelecimento.');
     } else {
-    	document.getElementById("corpo").innerHTML= "Usuário fora do estabelecimento.";
-        console.log('Usuário fora do estabelecimento.');
+    	document.getElementById("corpo").innerHTML= "Você está fora do estabelecimento.";
+        console.log('Você está fora do estabelecimento.');
     }
 }
 
